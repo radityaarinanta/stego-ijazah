@@ -9,7 +9,6 @@ import stego_lsb
 
 st.set_page_config(
     page_title="SecureIjazah — Sistem Keamanan Dokumen Akademik",
-    page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -36,8 +35,10 @@ st.markdown("""
   }
 
   .main-header {
-    padding: 2rem 0 1.5rem 0;
-    border-bottom: 1px solid #E2E8F0;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 2rem;
     margin-bottom: 2rem;
   }
 
@@ -88,14 +89,18 @@ st.markdown("""
     border-radius: 8px !important;
     color: #F1F5F9 !important;
     font-size: 0.9rem !important;
+    transition: all 0.2s ease-in-out;
   }
   div[data-testid="stForm"] .stTextInput input::placeholder {
     color: #475569 !important;
   }
   div[data-testid="stForm"] .stTextInput input:focus {
-    border-color: #3B82F6 !important;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
+    border-color: #2563EB !important;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.15) !important;
     background-color: #0F172A !important;
+  }
+  div[data-testid="stForm"] [data-testid="stFileUploaderDropzone"]:hover {
+    border-color: #2563EB !important;
   }
 
   div[data-testid="stForm"] hr {
@@ -110,13 +115,14 @@ st.markdown("""
     border-radius: 8px !important;
     font-weight: 600 !important;
     padding: 0.55rem 1.5rem !important;
-    transition: background 0.2s, transform 0.15s !important;
+    transition: all 0.2s ease-in-out !important;
     box-shadow: 0 2px 8px rgba(37,99,235,0.3) !important;
   }
   .stButton > button[kind="primary"]:hover,
   .stFormSubmitButton > button[kind="primary"]:hover {
     background: #1D4ED8 !important;
     transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.4) !important;
     color: #FFFFFF !important;
   }
 
@@ -136,35 +142,39 @@ st.markdown("""
     border-radius: 8px !important;
     font-weight: 600 !important;
     width: 100% !important;
-    transition: background 0.2s !important;
+    transition: all 0.2s ease-in-out !important;
   }
   .stDownloadButton > button:hover {
     background: #047857 !important;
+    box-shadow: 0 4px 12px rgba(5,150,105,0.3) !important;
   }
 
   .stTabs [data-baseweb="tab-list"] {
-    gap: 0;
-    border-bottom: 2px solid #E2E8F0;
+    gap: 8px;
+    border-bottom: 1px solid #E2E8F0;
     background: transparent;
   }
   .stTabs [data-baseweb="tab"] {
-    border-radius: 0;
-    padding: 0.75rem 1.5rem;
+    border-radius: 6px 6px 0 0;
+    padding: 0.6rem 1.5rem;
     font-weight: 500;
-    font-size: 0.875rem;
-    letter-spacing: 0.02em;
-    color: #64748B;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
+    font-size: 0.9rem;
+    color: #475569;
+    border: 1px solid transparent;
+    border-bottom: none;
+    margin-bottom: -1px;
+    transition: all 0.2s ease-in-out;
+  }
+  .stTabs [data-baseweb="tab"]:hover {
+    color: #0F172A !important;
+    background-color: #F8FAFC !important;
   }
   .stTabs [aria-selected="true"] {
-    color: #2563EB !important;
-    border-bottom: 2px solid #2563EB !important;
-    background: transparent !important;
-  }
-
-  .stSuccess {
-    border-radius: 10px;
+    color: #0F172A !important;
+    font-weight: 600 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-bottom: 1px solid #FFFFFF !important;
+    background-color: #FFFFFF !important;
   }
 
   .badge {
@@ -184,6 +194,33 @@ st.markdown("""
     color: #065F46;
     border-color: #A7F3D0;
   }
+
+  /* ── Custom Alert Banners ───────────────────────────── */
+  .alert-banner {
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .alert-success {
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    color: #065F46;
+  }
+  .alert-warning {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    color: #92400E;
+  }
+  .alert-danger {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #991B1B;
+  }
 </style>
 """, unsafe_allow_html=True)
 
@@ -191,7 +228,7 @@ with st.sidebar:
     st.markdown("""
     <div style="padding: 0.5rem 0 1.5rem 0;">
       <div style="font-size: 1.3rem; font-weight: 700; color: #F1F5F9; letter-spacing: -0.02em;">
-        🛡️ SecureIjazah
+        SecureIjazah
       </div>
       <div style="font-size: 0.78rem; color: #64748B; margin-top: 0.2rem;">
         Sistem Keamanan Dokumen
@@ -208,11 +245,11 @@ with st.sidebar:
 
     st.markdown("""
     <div style="background:#1E293B; border-radius:10px; padding:0.9rem 1rem; margin-bottom:0.6rem;">
-      <div style="font-size:0.8rem; font-weight:600; color:#60A5FA;">🔐 AES-256</div>
+      <div style="font-size:0.8rem; font-weight:600; color:#60A5FA;">AES-256</div>
       <div style="font-size:0.72rem; color:#94A3B8; margin-top:0.2rem;">Enkripsi Data Mahasiswa</div>
     </div>
     <div style="background:#1E293B; border-radius:10px; padding:0.9rem 1rem; margin-bottom:1.5rem;">
-      <div style="font-size:0.8rem; font-weight:600; color:#34D399;">🖼️ LSB Steganography</div>
+      <div style="font-size:0.8rem; font-weight:600; color:#34D399;">LSB Steganography</div>
       <div style="font-size:0.72rem; color:#94A3B8; margin-top:0.2rem;">Penyisipan Data ke Gambar</div>
     </div>
     """, unsafe_allow_html=True)
@@ -237,10 +274,10 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-col_h1, col_h2 = st.columns([2, 1])
-with col_h1:
-    st.markdown("""
-    <div style="padding: 0.5rem 0 0.25rem 0;">
+st.markdown("""
+<div class="main-header">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <div>
       <h1 style="font-size:1.8rem; font-weight:700; color:#0F172A; margin:0; letter-spacing:-0.02em;">
         Sistem Keamanan & Verifikasi Ijazah
       </h1>
@@ -248,18 +285,15 @@ with col_h1:
         Platform pengamanan dokumen akademik terintegrasi menggunakan <strong>Kriptografi AES-256</strong> dan <strong>Steganografi LSB</strong>
       </p>
     </div>
-    """, unsafe_allow_html=True)
-with col_h2:
-    st.markdown("""
-    <div style="display:flex; justify-content:flex-end; gap:0.5rem; padding-top:0.5rem;">
+    <div style="display:flex; gap:0.5rem;">
       <span class="badge">AES-256</span>
       <span class="badge badge-green">LSB Steganography</span>
     </div>
-    """, unsafe_allow_html=True)
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
-st.markdown("<hr style='border: none; border-top: 1px solid #E2E8F0; margin: 1rem 0 1.5rem 0;'>", unsafe_allow_html=True)
-
-tab1, tab2 = st.tabs(["  🔒  Pengamanan  ", "  🔍  Verifikasi  "])
+tab1, tab2 = st.tabs(["  Pengamanan  ", "  Verifikasi  "])
 
 with tab1:
     st.markdown("""
@@ -274,6 +308,24 @@ with tab1:
     """, unsafe_allow_html=True)
 
     with st.form("form_pengamanan"):
+        st.markdown("""
+        <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+                  color:#94A3B8; margin-bottom:1rem;">
+          Gambar Sampul (Cover Image)
+        </p>
+        """, unsafe_allow_html=True)
+
+        uploaded_file = st.file_uploader(
+            "Unggah Foto Ijazah (PNG / JPG)",
+            type=["png", "jpg", "jpeg"],
+            key="file_enc",
+            help="Gunakan gambar PNG lossless untuk hasil terbaik."
+        )
+        if uploaded_file is not None:
+            st.image(uploaded_file, caption="Pratinjau Foto Asli", width=120)
+
+        st.markdown("<hr style='border:none;border-top:1px solid #1E293B;margin:1.5rem 0;'>", unsafe_allow_html=True)
+
         st.markdown("""
         <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
                   color:#94A3B8; margin-bottom:1rem;">
@@ -294,53 +346,54 @@ with tab1:
         st.markdown("""
         <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
                   color:#94A3B8; margin-bottom:1rem;">
-          Keamanan & Gambar
+          Keamanan
         </p>
         """, unsafe_allow_html=True)
 
-        col3, col4 = st.columns(2)
-        with col3:
-            password_encode = st.text_input(
-                "Password Rahasia (AES Key)",
-                type="password",
-                key="pass_enc",
-                placeholder="Minimal 8 karakter",
-                help="Gunakan password yang kuat. Password ini dibutuhkan saat verifikasi."
-            )
-        with col4:
-            uploaded_file = st.file_uploader(
-                "Unggah Foto Ijazah(PNG / JPG)",
-                type=["png", "jpg", "jpeg"],
-                key="file_enc",
-                help="Gunakan gambar PNG lossless untuk hasil terbaik."
-            )
+        password_encode = st.text_input(
+            "Password Rahasia (AES Key)",
+            type="password",
+            key="pass_enc",
+            placeholder="Minimal 8 karakter",
+            help="Gunakan password yang kuat. Password ini dibutuhkan saat verifikasi."
+        )
 
         st.markdown("<br>", unsafe_allow_html=True)
-        submitted = st.form_submit_button("  🚀  Proses Pengamanan Data  ", type="primary")
+        submitted = st.form_submit_button("  Proses Pengamanan Data  ", type="primary")
 
-        if submitted:
-            if nim and nama and ipk and lulus and password_encode and uploaded_file:
-                with st.spinner("Mengenkripsi data dan menyisipkan ke gambar..."):
-                    data_asli = f"NIM: {nim} | Nama: {nama} | IPK: {ipk} | Lulus: {lulus}"
-                    ciphertext = kripto_aes.encrypt_aes(data_asli, password_encode)
+    if submitted:
+        if nim and nama and ipk and lulus and password_encode and uploaded_file:
+            with st.spinner("Mengenkripsi data dan menyisipkan ke gambar..."):
+                data_asli = f"NIM: {nim} | Nama: {nama} | IPK: {ipk} | Lulus: {lulus}"
+                ciphertext = kripto_aes.encrypt_aes(data_asli, password_encode)
 
-                    if "Error" not in ciphertext:
-                        temp_input_path  = "temp_input.png"
-                        temp_output_path = "stego_result.png"
-                        img = Image.open(uploaded_file)
-                        img.save(temp_input_path)
-                        hasil_stego = stego_lsb.hide_data_lsb(temp_input_path, ciphertext, temp_output_path)
+                if "Error" not in ciphertext:
+                    temp_input_path  = "temp_input.png"
+                    temp_output_path = "stego_result.png"
+                    img = Image.open(uploaded_file)
+                    img.save(temp_input_path)
+                    hasil_stego = stego_lsb.hide_data_lsb(temp_input_path, ciphertext, temp_output_path)
 
-                        if "Sukses" in hasil_stego:
-                            st.success("✅  Data berhasil dienkripsi dan disisipkan ke dalam foto.")
-                            st.markdown("<br>", unsafe_allow_html=True)
+                    if "Sukses" in hasil_stego:
+                        st.markdown(f"""
+                        <div class="alert-banner alert-success">
+                          <div><strong>Berhasil!</strong> Data mahasiswa telah dienkripsi dengan aman dan disisipkan ke dalam foto ijazah.</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        with st.container(border=True):
+                            st.markdown("""
+                            <div style="font-size: 0.95rem; font-weight: 600; color: #0F172A; margin-bottom: 1rem;">
+                              Hasil Stego-Image & Ringkasan Data
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
                             r1, r2 = st.columns([1, 2])
                             with r1:
                                 st.image(temp_output_path, caption=f"Stego-image — {nama}", use_container_width=True)
                             with r2:
                                 st.markdown(f"""
-                                <div class="section-card" style="height:100%;">
-                                  <p style="font-size:0.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#64748B;">Ringkasan</p>
+                                <div class="section-card" style="height:auto; margin-bottom:1rem; padding:1.25rem;">
+                                  <p style="font-size:0.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#64748B;margin:0 0 0.5rem 0;">Ringkasan Data Tersemat</p>
                                   <table style="width:100%;font-size:0.875rem;border-collapse:collapse;">
                                     <tr><td style="padding:.4rem 0;color:#94A3B8;width:40%">NIM</td><td style="color:#0F172A;font-weight:600">{nim}</td></tr>
                                     <tr><td style="padding:.4rem 0;color:#94A3B8">Nama</td><td style="color:#0F172A;font-weight:600">{nama}</td></tr>
@@ -351,17 +404,29 @@ with tab1:
                                 """, unsafe_allow_html=True)
                                 with open(temp_output_path, "rb") as file:
                                     st.download_button(
-                                        label="  💾  Unduh Foto Aman (Stego-image)  ",
+                                        label="  Unduh Foto Aman (Stego-image)  ",
                                         data=file,
                                         file_name=f"SecurePhoto_{nim}.png",
                                         mime="image/png"
                                     )
-                        else:
-                            st.error(f"❌  {hasil_stego}")
                     else:
-                        st.error("❌  Gagal melakukan enkripsi AES.")
-            else:
-                st.warning("⚠️  Mohon lengkapi semua kolom, masukkan password, dan unggah foto.")
+                        st.markdown(f"""
+                        <div class="alert-banner alert-danger">
+                          <div><strong>Gagal!</strong> {hasil_stego}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                else:
+                    st.markdown("""
+                    <div class="alert-banner alert-danger">
+                      <div><strong>Gagal!</strong> Enkripsi data menggunakan algoritma AES-256 tidak dapat diselesaikan.</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div class="alert-banner alert-warning">
+              <div><strong>Peringatan!</strong> Mohon lengkapi seluruh formulir data, password rahasia, dan pas foto terlebih dahulu.</div>
+            </div>
+            """, unsafe_allow_html=True)
 
 with tab2:
     st.markdown("""
@@ -408,7 +473,7 @@ with tab2:
         )
 
         st.markdown("<br>", unsafe_allow_html=True)
-        verify_btn = st.button("  🛡️  Verifikasi Dokumen  ", type="primary", key="verify_btn")
+        verify_btn = st.button("  Verifikasi Dokumen  ", type="primary", key="verify_btn")
 
         if verify_btn:
             if uploaded_stego and password_decode:
@@ -425,65 +490,70 @@ with tab2:
                         if "ERROR" not in plaintext:
                             st.markdown("<br>", unsafe_allow_html=True)
                             st.markdown("""
-                            <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px;
-                                        padding:1rem 1.5rem; display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem;">
-                              <span style="font-size:1.5rem;">✅</span>
+                            <div class="alert-banner alert-success">
                               <div>
-                                <div style="font-weight:700; color:#065F46; font-size:0.95rem;">Verifikasi Berhasil — Dokumen Asli</div>
-                                <div style="font-size:0.8rem; color:#047857;">Data berhasil diekstrak dan didekripsi dari gambar.</div>
+                                <div style="font-weight:700; font-size:0.95rem;">Verifikasi Berhasil — Dokumen Asli</div>
+                                <div style="font-size:0.8rem; opacity:0.9;">Data berhasil diekstrak dan didekripsi dari gambar.</div>
                               </div>
                             </div>
                             """, unsafe_allow_html=True)
 
-                            res1, res2 = st.columns([1, 1.6])
+                            with st.container(border=True):
+                                st.markdown("""
+                                <div style="font-size: 0.95rem; font-weight: 600; color: #0F172A; margin-bottom: 1rem;">
+                                  Hasil Verifikasi & Dekripsi Dokumen
+                                </div>
+                                """, unsafe_allow_html=True)
 
-                            with res1:
-                                st.markdown("<p style='font-size:0.75rem;font-weight:600;color:#374151;margin-bottom:0.5rem;'>Tingkat Keaslian</p>", unsafe_allow_html=True)
-                                chart_data = pd.DataFrame(
-                                    {"Status": ["Asli (Verified)", "Palsu/Lainnya"], "Persentase": [100, 0]}
-                                )
-                                chart = alt.Chart(chart_data).mark_arc(innerRadius=55, outerRadius=85).encode(
-                                    theta=alt.Theta(field="Persentase", type="quantitative"),
-                                    color=alt.Color(
-                                        field="Status", type="nominal",
-                                        scale=alt.Scale(domain=["Asli (Verified)", "Palsu/Lainnya"], range=["#10B981", "#E2E8F0"]),
-                                        legend=alt.Legend(orient="bottom", title=None, labelFontSize=11)
-                                    ),
-                                    tooltip=["Status", "Persentase"]
-                                ).properties(height=230)
-                                st.altair_chart(chart, use_container_width=True)
+                                res1, res2 = st.columns([1, 1.6])
 
-                            with res2:
-                                st.markdown("<p style='font-size:0.75rem;font-weight:600;color:#374151;margin-bottom:0.75rem;'>Data Mahasiswa yang Ditemukan</p>", unsafe_allow_html=True)
-                                data_dict = {"Kategori": [], "Data": []}
-                                for item in plaintext.split("|"):
-                                    if ":" in item:
-                                        key, val = item.split(":", 1)
-                                        data_dict["Kategori"].append(key.strip())
-                                        data_dict["Data"].append(val.strip())
-                                df = pd.DataFrame(data_dict)
-                                st.dataframe(df, use_container_width=True, hide_index=True)
+                                with res1:
+                                    st.markdown("<p style='font-size:0.75rem;font-weight:600;color:#374151;margin-bottom:0.5rem;'>Tingkat Keaslian</p>", unsafe_allow_html=True)
+                                    chart_data = pd.DataFrame(
+                                        {"Status": ["Asli (Verified)", "Palsu/Lainnya"], "Persentase": [100, 0]}
+                                    )
+                                    chart = alt.Chart(chart_data).mark_arc(innerRadius=45, outerRadius=75).encode(
+                                        theta=alt.Theta(field="Persentase", type="quantitative"),
+                                        color=alt.Color(
+                                            field="Status", type="nominal",
+                                            scale=alt.Scale(domain=["Asli (Verified)", "Palsu/Lainnya"], range=["#10B981", "#E2E8F0"]),
+                                            legend=alt.Legend(orient="bottom", title=None, labelFontSize=11)
+                                        ),
+                                        tooltip=["Status", "Persentase"]
+                                    ).properties(height=220, padding={"top": 15, "bottom": 15, "left": 10, "right": 10})
+                                    st.altair_chart(chart, use_container_width=True)
+
+                                with res2:
+                                    st.markdown("<p style='font-size:0.75rem;font-weight:600;color:#374151;margin-bottom:0.75rem;'>Data Mahasiswa yang Ditemukan</p>", unsafe_allow_html=True)
+                                    data_dict = {"Kategori": [], "Data": []}
+                                    for item in plaintext.split("|"):
+                                        if ":" in item:
+                                            key, val = item.split(":", 1)
+                                            data_dict["Kategori"].append(key.strip())
+                                            data_dict["Data"].append(val.strip())
+                                    df = pd.DataFrame(data_dict)
+                                    st.dataframe(df, use_container_width=True, hide_index=True)
                         else:
                             st.markdown("""
-                            <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:12px;
-                                        padding:1rem 1.5rem; display:flex; align-items:center; gap:0.75rem; margin-top:1rem;">
-                              <span style="font-size:1.5rem;">❌</span>
+                            <div class="alert-banner alert-danger" style="margin-top:1rem;">
                               <div>
-                                <div style="font-weight:700; color:#991B1B; font-size:0.95rem;">Verifikasi Gagal</div>
-                                <div style="font-size:0.8rem; color:#B91C1C;">Password salah atau foto telah dipalsukan/dimodifikasi.</div>
+                                <div style="font-weight:700; font-size:0.95rem;">Verifikasi Gagal</div>
+                                <div style="font-size:0.8rem; opacity:0.9;">Password salah atau foto telah dipalsukan/dimodifikasi.</div>
                               </div>
                             </div>
                             """, unsafe_allow_html=True)
                     else:
                         st.markdown("""
-                        <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:12px;
-                                    padding:1rem 1.5rem; display:flex; align-items:center; gap:0.75rem; margin-top:1rem;">
-                          <span style="font-size:1.5rem;">🚫</span>
+                        <div class="alert-banner alert-danger" style="margin-top:1rem;">
                           <div>
-                            <div style="font-weight:700; color:#991B1B; font-size:0.95rem;">Data Tidak Ditemukan</div>
-                            <div style="font-size:0.8rem; color:#B91C1C;">Tidak ada data rahasia pada foto ini. Kemungkinan besar palsu atau belum diamankan.</div>
+                            <div style="font-weight:700; font-size:0.95rem;">Data Tidak Ditemukan</div>
+                            <div style="font-size:0.8rem; opacity:0.9;">Tidak ada data rahasia pada foto ini. Kemungkinan besar palsu atau belum diamankan.</div>
                           </div>
                         </div>
                         """, unsafe_allow_html=True)
             else:
-                st.warning("⚠️  Mohon unggah foto dan masukkan password verifikasi.")
+                st.markdown("""
+                <div class="alert-banner alert-warning" style="margin-top:1rem;">
+                  <div><strong>Peringatan!</strong> Mohon unggah pas foto dan masukkan password verifikasi terlebih dahulu.</div>
+                </div>
+                """, unsafe_allow_html=True)
