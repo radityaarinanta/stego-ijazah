@@ -267,12 +267,7 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.markdown("""
-    <div style="font-size: 0.72rem; color: #475569;">
-      © 2026 — Tugas Besar Kriptografi
-    </div>
-    """, unsafe_allow_html=True)
+
 
 st.markdown("""
 <div class="main-header">
